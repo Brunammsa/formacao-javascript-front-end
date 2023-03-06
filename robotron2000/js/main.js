@@ -1,11 +1,29 @@
-const robotron = document.querySelector("#robotron");
+document.addEventListener('click', function(event){
+    var clickedElement = event.target;
+    
+    if(clickedElement.classList.contains('subtrair')){
+        manipulaDados('subtrair', clickedElement.dataset.partecorpo);
+    }
 
-robotron.addEventListener("click", (evento) => {
-    console.log(evento);
-});
+    if(clickedElement.classList.contains('somar')){
+        manipulaDados('somar', clickedElement.dataset.partecorpo);
+    }
+})
 
-function dizOi(nome) {
-    console.log("Oi " + nome);
-    console.log("Bem vindo(a) ao Robotron 2000")
+function manipulaDados(operador, parteCorpo){
+    var parte = document.querySelector('#' + parteCorpo).value * 1;
+
+    if (parte >= 0) {
+        switch (operador) {
+            case 'subtrair':
+                if (parte > 0) {
+                    parte--;
+                }
+                break;
+            case 'somar':
+                parte++;
+                break;
+            }
+            document.querySelector("#" + parteCorpo).value = parte;
+    }
 }
-dizOi('Bruna');
