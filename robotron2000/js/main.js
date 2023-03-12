@@ -1,17 +1,26 @@
-document.addEventListener('click', function(event){
-    var clickedElement = event.target;
-    
-    if(clickedElement.classList.contains('subtrair')){
-        manipulaDados('subtrair', clickedElement.dataset.partecorpo);
-        atualizaEstatistica(event.target.dataset.peca);
-    }
+function dizOiPara(nome) {
+    console.log('oi, humano(a) ' + nome);
+}
 
-    if(clickedElement.classList.contains('somar')){
-        manipulaDados('somar', clickedElement.dataset.partecorpo);
-        atualizaEstatistica(event.target.dataset.peca);
+const robotron = document.querySelector('#robotron');
+
+robotron.addEventListener('click', (evento) => {
+    console.log('Ei, você clicou em mim!');
+});
+
+const controle = document.querySelectorAll('[data-controle]');
+
+function manipulaDados(operacao, controle) {
+
+    const peca = controle.querySelector('[data-contador]');
+
+    if (operacao === '-') {
+        parseInt(peca.value--);
+    } else {
+        parseInt(peca.value++);
     }
-})
-const estatisticas = document.querySelectorAll("[data-estatistica]");
+}
+
 const pecas = {
     "bracos": {
         "forca": 29,
@@ -46,26 +55,19 @@ const pecas = {
     }
 }
 
-function manipulaDados(operador, parteCorpo){
-    var parte = document.querySelector('#' + parteCorpo).value * 1;
-
-    if (parte >= 0) {
-        switch (operador) {
-            case 'subtrair':
-                if (parte > 0) {
-                    parte--;
-                }
-                break;
-            case 'somar':
-                parte++;
-                break;
-            }
-            document.querySelector("#" + parteCorpo).value = parte;
-    }
-}
+const estatisticas = document.querySelectorAll('[data-estatistica]');
 
 function atualizaEstatistica(peca) {
-    estatisticas.forEach( (elemento ) => {
+    estatisticas.forEach( (elemento) => {
         elemento.textContent = parseInt(elemento.textContent) + pecas[peca][elemento.dataset.estatistica];
     })
-};
+}
+
+controle.forEach((elemento) => {
+    elemento.addEventListener('click', (evento) => {
+        manipulaDados(evento.target.dataset.controle, evento.target.parentNode);
+        atualizaEstatistica(evento.target.dataset.peca);
+    })
+})
+
+dizOiPara('bruna');
